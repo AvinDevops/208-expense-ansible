@@ -37,7 +37,15 @@
       login_host: db.aviexpense.online
       filter: version
     register: mysql_output
+    ignore_errors: yes
 
   - name: printing mysql output
     ansible.builtin.debug:
       msg: "output is : {{mysql_output}}"
+
+  # - name: setting password for root
+    # ansible.builtin.command:
+
+  - name: script reached enabled
+    ansible.builtin.debug:
+      msg: "script reached end!"
