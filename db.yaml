@@ -1,0 +1,35 @@
+- name: configuring db server
+  hosts: db
+  become: yes
+  vars:
+    login_host: db.aviexpense.online
+  vars_prompt:
+  - name: login_user
+    prompt: please enter username
+    private: no
+  - name: login_password
+    prompt: please enter password
+    private: no
+  tasks: #list of tasks/modules/collections
+  - name: installing mysql server
+    ansible.builtin.dnf:
+      name: mysql-server >= 8.0
+      state: present
+  
+  - name: enable and start mysql server
+    ansible.builtin.service:
+      name: mysql-server
+      state: started
+      enabled: yes
+  
+  - name: checking root password 
+    community.mysql.mysql_info:
+      login_user: "{{login_user}}"
+      login_password: "{{login_password}}"
+      login_host: db.aviexpense.online
+      filter: version
+    register: mysql_output
+
+  - name: printing mysql output
+    ansible.builtin.debug:
+      msg: "output is : {{mysql_output}}"
