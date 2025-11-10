@@ -3,6 +3,7 @@
   become: yes
   vars:
     login_host: db.aviexpense.online
+
   vars_prompt:
   - name: login_user
     prompt: please enter username
@@ -18,7 +19,7 @@
   
   - name: enable and start mysql server
     ansible.builtin.service:
-      name: mysql-server
+      name: mysqld
       state: started
       enabled: yes
   
